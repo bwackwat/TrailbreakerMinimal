@@ -132,9 +132,6 @@ namespace Trailbreaker.MainApplication
                 //It is also added to the list of actions.
                 Elements.Add(userAction);
 
-                //Its label is set to the best deduced label.
-                userAction.Label = userAction.GetBestLabel();
-
                 //Updates the grid to include the new action.
                 UpdateGridView();
                 //The scrollbar is set to the bottom of the grid.
@@ -174,7 +171,14 @@ namespace Trailbreaker.MainApplication
             switch (e.ColumnIndex)
             {
                 case 0:
-                    Elements[e.RowIndex].Label = _grid.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    try
+                    {
+                        Elements[e.RowIndex].Label = _grid.Rows[e.RowIndex].Cells[0].Value.ToString();
+                    }
+                    catch (Exception ex)
+                    {
+                        Elements[e.RowIndex].Label = "";
+                    }
                     break;
                 case 2:
                     Elements[e.RowIndex].IsEnumerable = bool.Parse(_grid.Rows[e.RowIndex].Cells[2].Value.ToString());
@@ -215,7 +219,7 @@ namespace Trailbreaker.MainApplication
                 row.Cells.Add(labelCell);
 
                 var stringCell = new DataGridViewTextBoxCell();
-                stringCell.Value = act.GetBestSelector();
+                stringCell.Value = act.Selector;
                 row.Cells.Add(stringCell);
 
                 var enumCell = new DataGridViewCheckBoxCell();
