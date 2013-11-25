@@ -92,25 +92,25 @@ namespace Trailbreaker.MainApplication
                     if (_bytes[i] == 10)
                     {
                         //If the line is the Accept part of the HTTP header.
-                        if (read.StartsWith("Accept:"))
+                        if (read.StartsWith("Cookie:"))
                         {
                             //If this request is JSON, then find the raw JSON data and process it.
-                            if (read.Contains("application/json"))
-                            {
+//                            if (read.Contains("application/json"))
+//                            {
                                 FindJson(i);
-                            }
-                                //Or, if the request is plain text then there should be a single character
-                                //to read at the end of the request.
-                            else if (read.Contains("text/plain"))
-                            {
-                                //Invoke is required to avoid synchronization issues betweeen the
-                                //BackgroundWorker's thread and the ReceivingForm's thread.
-                                _receivingForm.Invoke(
-                                    new MethodInvoker(
-                                        //The last byte from the request is send to the AddCharacter
-                                        //method of the ReceivingForm.
-                                        () => _receivingForm.AddCharacter(Convert.ToChar(_bytes[_numBytes - 1]))));
-                            }
+//                            }
+//                                //Or, if the request is plain text then there should be a single character
+//                                //to read at the end of the request.
+//                            else if (read.Contains("text/plain"))
+//                            {
+//                                //Invoke is required to avoid synchronization issues betweeen the
+//                                //BackgroundWorker's thread and the ReceivingForm's thread.
+//                                _receivingForm.Invoke(
+//                                    new MethodInvoker(
+//                                        //The last byte from the request is send to the AddCharacter
+//                                        //method of the ReceivingForm.
+//                                        () => _receivingForm.AddCharacter(Convert.ToChar(_bytes[_numBytes - 1]))));
+//                            }
                             //Done with this request
                             break;
                         }
